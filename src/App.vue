@@ -3,19 +3,13 @@
     <h1 class="text-center mb-5">Tickets</h1>
     <div class="fila">
       <div class="columna">
-        <div
-          class="tablero"
-          @dragover="allowDrop"
-          @drop="dropHandler"
-          @touchmove.prevent="touchMoveHandler"
-        >
+        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
           <h2>Pendientes</h2>
           <div
             v-for="(pendiente, index) in pendientes"
             :key="index"
             :draggable="true"
             @dragstart="dragStartHandler(pendiente, 'pendientes')"
-            @touchstart="touchStartHandler(pendiente, 'pendientes')"
           >
             <div
               class="ticket"
@@ -27,19 +21,13 @@
         </div>
       </div>
       <div class="columna">
-        <div
-          class="tablero"
-          @dragover="allowDrop"
-          @drop="dropHandler"
-          @touchmove.prevent="touchMoveHandler"
-        >
+        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
           <h2>En progreso</h2>
           <div
             v-for="(progreso, index) in progresos"
             :key="index"
             :draggable="true"
             @dragstart="dragStartHandler(progreso, 'progresos')"
-            @touchstart="touchStartHandler(progreso, 'progresos')"
           >
             <div
               class="ticket"
@@ -51,19 +39,13 @@
         </div>
       </div>
       <div class="columna">
-        <div
-          class="tablero"
-          @dragover="allowDrop"
-          @drop="dropHandler"
-          @touchmove.prevent="touchMoveHandler"
-        >
+        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
           <h2>Listo</h2>
           <div
             v-for="(listo, index) in listos"
             :key="index"
             :draggable="true"
             @dragstart="dragStartHandler(listo, 'listos')"
-            @touchstart="touchStartHandler(listo, 'listos')"
           >
             <div
               class="ticket"
@@ -152,30 +134,6 @@ const dropHandler = (event) => {
     sourceTablero = null;
   }
 };
-
-let touchStartX = 0;
-let touchStartY = 0;
-
-const touchStartHandler = (item, tablero, event) => {
-  touchStartX = event.touches[0].clientX;
-  touchStartY = event.touches[0].clientY;
-  dragStartHandler(item, tablero);
-};
-
-const touchMoveHandler = (event) => {
-  if (draggedItem) {
-    event.preventDefault();
-    const touchX = event.touches[0].clientX;
-    const touchY = event.touches[0].clientY;
-    const deltaX = touchX - touchStartX;
-    const deltaY = touchY - touchStartY;
-    touchStartX = touchX;
-    touchStartY = touchY;
-
-    draggedItem.style.left = draggedItem.offsetLeft + deltaX + "px";
-    draggedItem.style.top = draggedItem.offsetTop + deltaY + "px";
-  }
-};
 </script>
 
 
@@ -246,7 +204,7 @@ p {
 
   .columna {
     flex: 0 0 auto;
-    width: 90%;
+    width: 100%;
     margin-right: 10px;
   }
 }
