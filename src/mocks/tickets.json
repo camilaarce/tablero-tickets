@@ -1,0 +1,19 @@
+{
+    "pendientes": [
+        "pendiente 1",
+        "pendiente 2",
+        "pendiente 3",
+        "pendiente 4"
+    ],
+    "progresos": [
+        "progreso 1",
+        "progreso 2",
+        "progreso 3",
+        "progreso 4",
+        "progreso 5"
+    ],
+    "listos": [
+        "listo 1",
+        "listo 2"
+    ]
+}

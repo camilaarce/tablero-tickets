@@ -1,82 +1,78 @@
 <template>
-  <div class="container">
-    <h1 class="text-center mb-5">Tickets</h1>
-    <div class="fila">
-      <div class="columna">
-        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
-          <h2>Pendientes</h2>
-          <div
-            v-for="(pendiente, index) in pendientes"
-            :key="index"
-            :draggable="true"
-            @dragstart="dragStartHandler(pendiente, 'pendientes')"
-          >
-            <div
-              class="ticket"
-              style="display: flex; align-items: center; padding-left: 3%"
-            >
-              <p>{{ pendiente }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="columna">
-        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
-          <h2>En progreso</h2>
-          <div
-            v-for="(progreso, index) in progresos"
-            :key="index"
-            :draggable="true"
-            @dragstart="dragStartHandler(progreso, 'progresos')"
-          >
-            <div
-              class="ticket"
-              style="display: flex; align-items: center; padding-left: 3%"
-            >
-              <p>{{ progreso }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="columna">
-        <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
-          <h2>Listo</h2>
-          <div
-            v-for="(listo, index) in listos"
-            :key="index"
-            :draggable="true"
-            @dragstart="dragStartHandler(listo, 'listos')"
-          >
-            <div
-              class="ticket"
-              style="display: flex; align-items: center; padding-left: 3%"
-            >
-              <p>{{ listo }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <v-app>
+    <div class="navbar">
+      <Navbar />
     </div>
-  </div>
+    <v-main style="margin-top: -34px">
+      <div class="container">
+        <h1 class="text-center mb-5">Tickets</h1>
+        <div class="fila">
+          <div class="columna">
+            <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
+              <h2>Pendientes</h2>
+              <div
+                v-for="(pendiente, index) in tickets.pendientes"
+                :key="index"
+                :draggable="true"
+                @dragstart="dragStartHandler(pendiente, 'pendientes')"
+              >
+                <div
+                  class="ticket"
+                  style="display: flex; align-items: center; padding-left: 3%"
+                >
+                  <p>{{ pendiente }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="columna">
+            <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
+              <h2>En progreso</h2>
+              <div
+                v-for="(progreso, index) in tickets.progresos"
+                :key="index"
+                :draggable="true"
+                @dragstart="dragStartHandler(progreso, 'progresos')"
+              >
+                <div
+                  class="ticket"
+                  style="display: flex; align-items: center; padding-left: 3%"
+                >
+                  <p>{{ progreso }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="columna">
+            <div class="tablero" @dragover="allowDrop" @drop="dropHandler">
+              <h2>Listo</h2>
+              <div
+                v-for="(listo, index) in tickets.listos"
+                :key="index"
+                :draggable="true"
+                @dragstart="dragStartHandler(listo, 'listos')"
+              >
+                <div
+                  class="ticket"
+                  style="display: flex; align-items: center; padding-left: 3%"
+                >
+                  <p>{{ listo }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import Navbar from "@/components/Navbar.vue";
+import ticketsData from "@/mocks/tickets.json";
+import { reactive } from "vue";
 
-const pendientes = ref([
-  "pendiente 1",
-  "pendiente 2",
-  "pendiente 3",
-  "pendiente 4",
-]);
-const progresos = ref([
-  "progreso 1",
-  "progreso 2",
-  "progreso 3",
-  "progreso 4",
-  "progreso 5",
-]);
-const listos = ref(["listo 1", "listo 2"]);
+const tickets = reactive(ticketsData);
 
 let draggedItem = null;
 let sourceTablero = null;
@@ -95,17 +91,17 @@ const dropHandler = (event) => {
   if (draggedItem) {
     switch (sourceTablero) {
       case "pendientes":
-        pendientes.value = pendientes.value.filter(
+        tickets.pendientes = tickets.pendientes.filter(
           (item) => item !== draggedItem
         );
         break;
       case "progresos":
-        progresos.value = progresos.value.filter(
+        tickets.progresos = tickets.progresos.filter(
           (item) => item !== draggedItem
         );
         break;
       case "listos":
-        listos.value = listos.value.filter((item) => item !== draggedItem);
+        tickets.listos = tickets.listos.filter((item) => item !== draggedItem);
         break;
     }
 
@@ -117,14 +113,13 @@ const dropHandler = (event) => {
         .innerText.toLowerCase();
       switch (targetTableroName) {
         case "pendientes":
-          pendientes.value.push(draggedItem);
+          tickets.pendientes.push(draggedItem);
           break;
         case "en progreso":
-          progresos.value.push(draggedItem);
-          console.log("progrso");
+          tickets.progresos.push(draggedItem);
           break;
         case "listo":
-          listos.value.push(draggedItem);
+          tickets.listos.push(draggedItem);
           break;
       }
     }
@@ -149,7 +144,7 @@ const dropHandler = (event) => {
 
 .container {
   padding: 3%;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background-color: #000;
 }
@@ -167,7 +162,7 @@ p {
 }
 
 .tablero {
-  height: 80vh;
+  height: 70vh;
   border: 2px solid white;
   padding: 3%;
   border-radius: 20px;
