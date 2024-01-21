@@ -66,6 +66,8 @@ const guardarTicket = () => {
 <style scoped>
 .v-toolbar-title {
   color: rgb(0, 221, 184);
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .v-btn {
