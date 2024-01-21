@@ -204,7 +204,7 @@ p {
 
   .columna {
     flex: 0 0 auto;
-    width: 100%;
+    width: 80%;
     margin-right: 10px;
   }
 }
