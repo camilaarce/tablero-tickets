@@ -70,7 +70,56 @@
 <script setup>
 import Navbar from "@/components/Navbar.vue";
 import ticketsData from "@/mocks/tickets.json";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
+
+onMounted(() => {
+  window.onload = function () {
+    //select the thing we wanna drag
+    var ticket = document.querySelector(".ticket");
+    const targetTicketName = ticket.querySelector("p").innerText.toLowerCase();
+    ticket.addEventListener("touchmove", function (ev) {
+      var tablero = this.closest(".tablero");
+      const targetTableroName = tablero
+        .querySelector("h2")
+        .innerText.toLowerCase();
+      switch (targetTableroName) {
+        case "pendientes":
+          tickets.pendientes = tickets.pendientes.filter(
+            (item) => item !== targetTicketName
+          );
+          break;
+        case "en progreso":
+          tickets.progresos = tickets.progresos.filter(
+            (item) => item !== targetTicketName
+          );
+          break;
+        case "listo":
+          tickets.listos = tickets.listos.filter(
+            (item) => item !== targetTicketName
+          );
+          break;
+      }
+    });
+    ticket.addEventListener("touchend", function (ev) {
+      var tablero = this.closest(".tablero");
+      var tablero = this.closest(".tablero");
+      const targetTableroName = tablero
+        .querySelector("h2")
+        .innerText.toLowerCase();
+      switch (targetTableroName) {
+        case "pendientes":
+          tickets.pendientes.push(targetTicketName);
+          break;
+        case "en progreso":
+          tickets.progresos.push(targetTicketName);
+          break;
+        case "listo":
+          tickets.listos.push(targetTicketName);
+          break;
+      }
+    });
+  };
+});
 
 const tickets = reactive(ticketsData);
 
